@@ -9,6 +9,8 @@ const Comment = require('./models/Comment');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+let databaseConnected = false;
+let databaseInitialization;
 const fallbackComments = [
   { _id: 'c1', username: 'Todd', comment: 'lol that is so funny!' },
   { _id: 'c2', username: 'Skyler', comment: 'I like to go birdwatching with my dog' },
@@ -24,6 +26,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(async (req, res, next) => {
+  if (!process.env.VERCEL || !isDatabaseConfigured()) {
+    return next();
+  }
+
+  try {
+    databaseInitialization ||= initializeDatabase();
+    const connected = await databaseInitialization;
+    if (!connected) databaseInitialization = undefined;
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
 function isDatabaseConfigured() {
   const { uri, dbName } = getMongoConfig();
   return Boolean(uri) && !hasPlaceholderValue(uri) && Boolean(dbName) && !hasPlaceholderValue(dbName);
@@ -34,8 +51,12 @@ function normalizeId(record) {
   return record._id ? String(record._id) : String(record.id || '');
 }
 
+function canUseDatabase() {
+  return databaseConnected && isDatabaseConfigured();
+}
+
 async function getAllComments() {
-  if (isDatabaseConfigured()) {
+  if (canUseDatabase()) {
     try {
       return await Comment.find().sort({ createdAt: -1 }).lean();
     } catch (error) {
@@ -47,7 +68,7 @@ async function getAllComments() {
 }
 
 async function findCommentById(id) {
-  if (isDatabaseConfigured()) {
+  if (canUseDatabase()) {
     try {
       return await Comment.findById(id).lean();
     } catch (error) {
@@ -59,7 +80,7 @@ async function findCommentById(id) {
 }
 
 async function createCommentRecord(data) {
-  if (isDatabaseConfigured()) {
+  if (canUseDatabase()) {
     try {
       return await Comment.create(data);
     } catch (error) {
@@ -77,7 +98,7 @@ async function createCommentRecord(data) {
 }
 
 async function updateCommentRecord(id, newCommentText) {
-  if (isDatabaseConfigured()) {
+  if (canUseDatabase()) {
     try {
       const comment = await Comment.findById(id);
       if (!comment) return null;
@@ -96,7 +117,7 @@ async function updateCommentRecord(id, newCommentText) {
 }
 
 async function deleteCommentRecord(id) {
-  if (isDatabaseConfigured()) {
+  if (canUseDatabase()) {
     try {
       return await Comment.findByIdAndDelete(id);
     } catch (error) {
@@ -118,6 +139,7 @@ async function initializeDatabase() {
 
   try {
     await connectDB();
+    databaseConnected = true;
     return true;
   } catch (error) {
     console.error('MongoDB startup failed:', error.message);
@@ -264,7 +286,10 @@ if (require.main === module) {
   });
 }
 
-module.exports = { app, initializeDatabase, disconnectDB };
+module.exports = app;
+module.exports.app = app;
+module.exports.initializeDatabase = initializeDatabase;
+module.exports.disconnectDB = disconnectDB;
 
 
 
