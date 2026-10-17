@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments Board</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body class="page">
+    <main class="container">
+        <header class="page-header">
+            <div>
+                <p class="eyebrow">REST Demo</p>
+                <h1>Comments Board</h1>
+            </div>
+            <a class="button primary" href="/comments/new">New Comment</a>
+        </header>
+
+        <% if (message) { %>
+            <div class="flash <%= messageType %>"><%= message %></div>
+        <% } %>
+
+        <div class="comment-list">
+            <% for (let c of comments) { %>
+                <article class="comment-card">
+                    <p class="comment-text"><%= c.comment %></p>
+                    <div class="comment-meta">
+                        <span>By <strong><%= c.username %></strong></span>
+                        <a class="button secondary" href="/comments/<%= c._id ? c._id.toString() : c.id %>">Details</a>
+                    </div>
+                </article>
+            <% } %>
+        </div>
+    </main>
+</body>
+
+</html>

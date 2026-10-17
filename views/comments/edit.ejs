@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Comment</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body class="page">
+    <main class="container narrow">
+        <header class="page-header form-header">
+            <div>
+                <p class="eyebrow">Update</p>
+                <h1>Edit Comment</h1>
+            </div>
+            <a class="button secondary" href="/comments/<%= comment.id %>">Cancel</a>
+        </header>
+
+        <form class="comment-form" method="POST" action="/comments/<%= comment._id ? comment._id.toString() : comment.id %>?_method=PATCH">
+            <label for="comment">Comment</label>
+            <textarea id="comment" rows="8" name="comment" required><%= comment.comment %></textarea>
+            <button class="button primary" type="submit">Save Changes</button>
+        </form>
+    </main>
+</body>
+
+</html>

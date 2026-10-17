@@ -1,0 +1,28 @@
+{
+  "name": "RESTDemo",
+  "version": "1.0.0",
+  "description": "A simple Express.js REST API demo for comments",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
+    "build": "node --check index.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "express",
+    "rest",
+    "ejs",
+    "comments"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^9.11.2",
+    "uuid": "^8.3.0"
+  }
+}

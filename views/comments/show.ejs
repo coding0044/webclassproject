@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Details</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body class="page">
+    <main class="container narrow">
+        <header class="page-header form-header">
+            <div>
+                <p class="eyebrow">Details</p>
+                <h1>Comment</h1>
+            </div>
+            <a class="button secondary" href="/comments">Back</a>
+        </header>
+
+        <article class="comment-detail">
+            <p class="comment-id">ID: <%= comment._id ? comment._id.toString() : comment.id %></p>
+            <p class="comment-text large"><%= comment.comment %></p>
+            <p class="comment-author">Posted by <strong><%= comment.username %></strong></p>
+        </article>
+
+        <div class="detail-actions">
+            <a class="button primary" href="/comments/<%= comment._id ? comment._id.toString() : comment.id %>/edit">Edit Comment</a>
+            <form method="POST" action="/comments/<%= comment._id ? comment._id.toString() : comment.id %>?_method=DELETE">
+                <button class="button danger" type="submit">Delete</button>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>
