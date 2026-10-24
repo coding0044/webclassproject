@@ -14,6 +14,7 @@ const {
   clearSessionCookie,
   getPasswordResetSession,
   getSessionUser,
+  isSessionConfigured,
   setPasswordResetCookie,
   setSessionCookie
 } = require('./auth/session');
@@ -202,6 +203,13 @@ app.post('/signup', async (req, res, next) => {
   if (error) return res.status(400).render('auth/signup', { error, values });
 
   try {
+    if (!isSessionConfigured()) {
+      return res.status(503).render('auth/signup', {
+        error: 'Account sign-up is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.',
+        values
+      });
+    }
+
     if (!(await ensureDatabaseConnection())) {
       return res.status(503).render('auth/signup', {
         error: 'Account services are unavailable because the database is not connected.',
@@ -246,6 +254,13 @@ app.post('/login', async (req, res, next) => {
   }
 
   try {
+    if (!isSessionConfigured()) {
+      return res.status(503).render('auth/login', {
+        error: 'Login is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.',
+        email
+      });
+    }
+
     if (!(await ensureDatabaseConnection())) {
       return res.status(503).render('auth/login', {
         error: 'Account services are unavailable because the database is not connected.',
@@ -281,6 +296,13 @@ app.post('/forgot-password', async (req, res, next) => {
   if (!isEmailConfigured()) {
     return res.status(503).render('auth/forgot-password', {
       error: 'Password reset email is not configured. Add the SMTP settings described in the README.',
+      email
+    });
+  }
+
+  if (!isSessionConfigured()) {
+    return res.status(503).render('auth/forgot-password', {
+      error: 'Password reset is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.',
       email
     });
   }
@@ -359,6 +381,13 @@ app.post('/verify-reset-code', async (req, res, next) => {
     });
   }
 
+  if (!isSessionConfigured()) {
+    return res.status(503).render('auth/verify-reset-code', {
+      ...values,
+      error: 'Password reset is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.'
+    });
+  }
+
   try {
     if (!(await ensureDatabaseConnection())) {
       return res.status(503).render('auth/verify-reset-code', {
@@ -424,6 +453,12 @@ app.post('/verify-reset-code', async (req, res, next) => {
 });
 
 app.get('/reset-password', async (req, res, next) => {
+  if (!isSessionConfigured()) {
+    return res.status(503).render('auth/reset-password', {
+      error: 'Password reset is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.'
+    });
+  }
+
   const resetSession = getPasswordResetSession(req);
   if (!resetSession) return res.redirect('/forgot-password');
 
@@ -451,6 +486,12 @@ app.get('/reset-password', async (req, res, next) => {
 });
 
 app.post('/reset-password', async (req, res, next) => {
+  if (!isSessionConfigured()) {
+    return res.status(503).render('auth/reset-password', {
+      error: 'Password reset is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.'
+    });
+  }
+
   const password = String(req.body.password || '');
   const confirmPassword = String(req.body.confirmPassword || '');
   const resetSession = getPasswordResetSession(req);
@@ -654,7 +695,6 @@ module.exports = app;
 module.exports.app = app;
 module.exports.initializeDatabase = initializeDatabase;
 module.exports.disconnectDB = disconnectDB;
-
 
 
 

@@ -4,18 +4,21 @@ const COOKIE_NAME = 'comments_session';
 const PASSWORD_RESET_COOKIE_NAME = 'password_reset';
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 const configuredSecret = process.env.AUTH_SESSION_SECRET;
-
-if ((configuredSecret && configuredSecret.length < 32) || (process.env.NODE_ENV === 'production' && !configuredSecret)) {
-  throw new Error('AUTH_SESSION_SECRET must be set to at least 32 characters in production and must not be shorter in any environment.');
-}
-
-const sessionSecret = configuredSecret || crypto.randomBytes(32).toString('hex');
+const sessionSecret = configuredSecret && configuredSecret.length >= 32
+  ? configuredSecret
+  : process.env.NODE_ENV === 'production'
+    ? null
+    : crypto.randomBytes(32).toString('hex');
 
 function sign(value) {
+  if (!sessionSecret) {
+    throw new Error('AUTH_SESSION_SECRET must be set to at least 32 characters before account sessions can be used.');
+  }
   return crypto.createHmac('sha256', sessionSecret).update(value).digest('base64url');
 }
 
 function readSignedCookie(req, name) {
+  if (!sessionSecret) return null;
   const cookie = (req.headers.cookie || '')
     .split(';')
     .map((part) => part.trim())
@@ -116,6 +119,7 @@ module.exports = {
   clearSessionCookie,
   getPasswordResetSession,
   getSessionUser,
+  isSessionConfigured: () => Boolean(sessionSecret),
   setPasswordResetCookie,
   setSessionCookie
 };

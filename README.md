@@ -99,6 +99,10 @@ MAIL_FROM=your-gmail-address@gmail.com
 
 Set `AUTH_SESSION_SECRET` to a private random value of at least 32 characters before deploying. For example, generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Account creation, login, and password reset require a working MongoDB connection; passwords and reset codes are stored as salted scrypt hashes. For Gmail, use an App Password (not your regular account password) as `MAIL_PASS`; never commit real credentials. Since the previous App Password was shared in chat, revoke it and generate a new one before using email reset. Reset codes expire after 10 minutes, are limited to five attempts, and can only be resent once per minute. In development, if `AUTH_SESSION_SECRET` is omitted, sessions use a temporary process-only secret and will expire when the app restarts.
 
+### Vercel deployment
+
+Add `AUTH_SESSION_SECRET`, `MONGODB_URI`, `MONGODB_DB_NAME`, and the required `MAIL_*` settings under **Vercel → Project → Settings → Environment Variables** for each deployment environment you use. Set `AUTH_SESSION_SECRET` to a stable random value of at least 32 characters; do not use a different value on each deployment. After saving environment variables, redeploy the project. The app still renders public login/signup pages if the session secret is missing, but account and password-reset actions return a configuration message instead of crashing the serverless function.
+
 ## Screenshots
 =======
 PORT=3000

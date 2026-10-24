@@ -1,6 +1,8 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const http = require('node:http');
+const { execFileSync } = require('node:child_process');
+const path = require('node:path');
 
 const { app } = require('../index.js');
 const { hashPassword, verifyPassword } = require('../auth/password');
@@ -40,6 +42,38 @@ test('root route opens the login page', async () => {
 
     assert.equal(response.status, 302);
     assert.equal(response.headers.get('location'), '/login');
+  });
+});
+
+test('production serverless app loads without session secret and reports auth setup clearly', () => {
+  const script = `
+    const assert = require('node:assert/strict');
+    const { app } = require('./index.js');
+    const server = app.listen(0, async () => {
+      try {
+        const address = server.address();
+        const login = await fetch('http://127.0.0.1:' + address.port + '/login');
+        assert.equal(login.status, 200);
+        const response = await fetch('http://127.0.0.1:' + address.port + '/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: 'email=person%40example.com&password=some-password'
+        });
+        assert.equal(response.status, 503);
+        assert.match(await response.text(), /AUTH_SESSION_SECRET/);
+      } catch (error) {
+        console.error(error);
+        process.exitCode = 1;
+      } finally {
+        server.close();
+      }
+    });
+  `;
+
+  execFileSync(process.execPath, ['-e', script], {
+    cwd: path.join(__dirname, '..'),
+    env: { ...process.env, NODE_ENV: 'production', AUTH_SESSION_SECRET: '' },
+    stdio: 'pipe'
   });
 });
 
