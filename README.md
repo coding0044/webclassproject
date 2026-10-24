@@ -20,29 +20,6 @@ A simple Express.js application for creating, viewing, updating, and deleting co
 - MongoDB + Mongoose
 - Method override for PATCH and DELETE requests
 
-## Project Structure
-
-```text
-.
-├── config/
-│   └── db.js
-├── models/
-│   └── Comment.js
-├── public/
-│   └── styles.css
-├── tests/
-│   └── app.test.js
-├── views/
-│   └── comments/
-│       ├── edit.ejs
-│       ├── index.ejs
-│       ├── new.ejs
-│       └── show.ejs
-├── index.js
-├── package.json
-└── README.md
-```
-
 ## Installation
 
 1. Clone the repository
@@ -90,13 +67,13 @@ MONGODB_DB=commentsdb
 
 ## Screenshots
 
-![Comments board](file:///C:/Users/SP24-BSCS-0044.JINNAH/AppData/Roaming/Code/agentSessionData/0c3c410a-5b9f-449d-8c69-7064437aa0c5/attachments/9231c3ef-7645-4b7a-89b1-1da298e0c745/Pasted%20Image.png)
+![Comments board](./public/picture/Comments%20board.png)
 
-![Create new comment form](file:///C:/Users/SP24-BSCS-0044.JINNAH/AppData/Roaming/Code/agentSessionData/0c3c410a-5b9f-449d-8c69-7064437aa0c5/attachments/40142d3c-e88c-437b-8087-b58deb6d2e32/Pasted%20Image%202.png)
+![Create new comment form](./public/picture/Create%20new%20comment%20form.png)
 
-![Comment details page](file:///C:/Users/SP24-BSCS-0044.JINNAH/AppData/Roaming/Code/agentSessionData/0c3c410a-5b9f-449d-8c69-7064437aa0c5/attachments/c29f813c-4852-43ee-8fdd-64353db6ff1c/Pasted%20Image%203.png)
+![Comment details page](./public/picture/Comment%20details%20page.png)
 
-![Edit comment form](file:///C:/Users/SP24-BSCS-0044.JINNAH/AppData/Roaming/Code/agentSessionData/0c3c410a-5b9f-449d-8c69-7064437aa0c5/attachments/f134309f-217a-4279-b6db-0200b3e67ef5/Pasted%20Image%204.png)
+![Edit comment form](./public/picture/Edit%20comment%20form.png)
 
 ## Notes
 
