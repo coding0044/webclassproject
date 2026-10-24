@@ -10,12 +10,24 @@
 
 <body class="page">
     <main class="container">
+        <a class="brand site-brand" href="/"><span class="brand-mark">t</span> threadline</a>
         <header class="page-header">
             <div>
-                <p class="eyebrow">REST Demo</p>
+                <p class="eyebrow">A place for good conversations</p>
                 <h1>Comments Board</h1>
             </div>
-            <a class="button primary" href="/comments/new">New Comment</a>
+            <nav class="board-actions" aria-label="Account and comment actions">
+                <% if (locals.user) { %>
+                    <span class="welcome-user">Hi, <strong><%= user.username %></strong></span>
+                    <form action="/logout" method="post">
+                        <button class="button secondary" type="submit">Log out</button>
+                    </form>
+                <% } else { %>
+                    <a class="button secondary" href="/login">Log in</a>
+                    <a class="button secondary" href="/signup">Sign up</a>
+                <% } %>
+                <a class="button primary" href="/comments/new">New Comment</a>
+            </nav>
         </header>
 
         <% if (message) { %>
@@ -31,6 +43,14 @@
                         <a class="button secondary" href="/comments/<%= c._id ? c._id.toString() : c.id %>">Details</a>
                     </div>
                 </article>
+            <% } %>
+            <% if (comments.length === 0) { %>
+                <div class="empty-state">
+                    <span class="empty-state-mark">t</span>
+                    <h2>Start the conversation</h2>
+                    <p>There are no comments yet. Share the first thought with the community.</p>
+                    <a class="button primary" href="/comments/new">Write the first comment</a>
+                </div>
             <% } %>
         </div>
     </main>

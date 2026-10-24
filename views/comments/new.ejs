@@ -10,22 +10,23 @@
 
 <body class="page">
     <main class="container narrow">
+        <a class="brand site-brand" href="/"><span class="brand-mark">t</span> threadline</a>
         <header class="page-header form-header">
             <div>
-                <p class="eyebrow">Create</p>
+                <p class="eyebrow">Share your perspective</p>
                 <h1>New Comment</h1>
             </div>
             <a class="button secondary" href="/comments">Back</a>
         </header>
 
         <form class="comment-form" action="/comments" method="post">
-            <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Enter your username" name="username" required>
+            <label f or="username">Username</label>
+            <input type="text" id="username" placeholder="Enter your name" name="username" minlength="2" maxlength="80" autocomplete="name" required>
 
             <label for="comment">Comment</label>
-            <textarea id="comment" rows="5" name="comment" placeholder="Share your thoughts..." required></textarea>
+            <textarea id="comment" rows="5" name="comment" placeholder="What’s on your mind? Keep the conversation thoughtful." maxlength="2000" required></textarea>
 
-            <button class="button primary" type="submit">Submit</button>
+            <button class="button primary" type="submit">Post comment</button>
         </form>
     </main>
 </body>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101827">
+    <title>Create account | Threadline</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body class="auth-page">
+    <main class="auth-layout">
+        <section class="auth-story" aria-label="Welcome">
+            <a class="brand" href="/comments"><span class="brand-mark">t</span> threadline</a>
+            <div class="story-copy">
+                <p class="auth-kicker">Make room for new ideas</p>
+                <h1>Every great<br>thread starts<br>with a hello.</h1>
+                <p class="story-description">Create your free account and bring your voice to a community built around better conversations.</p>
+            </div>
+            <div class="story-note"><span class="online-dot"></span> Your next conversation is waiting.</div>
+            <span class="story-orb story-orb-one"></span>
+            <span class="story-orb story-orb-two"></span>
+        </section>
+
+        <section class="auth-panel">
+            <div class="auth-form-wrap">
+                <a class="mobile-brand brand" href="/comments"><span class="brand-mark">t</span> threadline</a>
+                <p class="eyebrow">Get started</p>
+                <h2>Create your account</h2>
+                <p class="auth-subtitle">It only takes a moment to join the conversation.</p>
+
+                <% if (error) { %>
+                    <div class="auth-error" role="alert"><%= error %></div>
+                <% } %>
+
+                <form class="auth-form" action="/signup" method="post">
+                    <label for="username">Your name</label>
+                    <input id="username" name="username" type="text" autocomplete="name" placeholder="e.g. Alex Morgan" value="<%= values.username %>" minlength="2" maxlength="50" required>
+
+                    <label for="email">Email address</label>
+                    <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" value="<%= values.email %>" maxlength="254" required>
+
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" minlength="8" maxlength="128" required>
+
+                    <label for="confirmPassword">Confirm password</label>
+                    <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Enter your password again" minlength="8" maxlength="128" required>
+
+                    <button class="auth-submit" type="submit">Create account <span aria-hidden="true">→</span></button>
+                </form>
+
+                <p class="auth-switch">Already have an account? <a href="/login">Log in</a></p>
+            </div>
+            <p class="auth-footer">Thoughtful conversations start here.</p>
+        </section>
+    </main>
+</body>
+
+</html>

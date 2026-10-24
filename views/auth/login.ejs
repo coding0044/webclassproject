@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101827">
+    <title>Log in | Threadline</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body class="auth-page">
+    <main class="auth-layout">
+        <section class="auth-story" aria-label="Welcome">
+            <a class="brand" href="/comments"><span class="brand-mark">t</span> threadline</a>
+            <div class="story-copy">
+                <p class="auth-kicker">A place for good conversations</p>
+                <h1>Your people.<br> Your point of view.</h1>
+                <p class="story-description">Join the conversation, share what you think, and find a fresh perspective in every thread.</p>
+            </div>
+            <div class="story-note"><span class="online-dot"></span> A little more thoughtful, every day.</div>
+            <span class="story-orb story-orb-one"></span>
+            <span class="story-orb story-orb-two"></span>
+        </section>
+
+        <section class="auth-panel">
+            <div class="auth-form-wrap">
+                <a class="mobile-brand brand" href="/comments"><span class="brand-mark">t</span> threadline</a>
+                <p class="eyebrow">Welcome back</p>
+                <h2>Log in to your account</h2>
+                <p class="auth-subtitle">Pick up right where the conversation left off.</p>
+
+                <% if (error) { %>
+                    <div class="auth-error" role="alert"><%= error %></div>
+                <% } %>
+                <% if (locals.passwordReset) { %>
+                    <div class="auth-success" role="status">Your password has been updated. You can log in with your new password.</div>
+                <% } %>
+
+                <form class="auth-form" action="/login" method="post">
+                    <label for="email">Email address</label>
+                    <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" value="<%= email %>" maxlength="254" required>
+
+                    <div class="password-label-row">
+                        <label for="password">Password</label>
+                        <a href="/forgot-password">Forgot password?</a>
+                    </div>
+                    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" maxlength="128" required>
+
+                    <button class="auth-submit" type="submit">Log in <span aria-hidden="true">→</span></button>
+                </form>
+
+                <p class="auth-switch">New to Threadline? <a href="/signup">Create an account</a></p>
+            </div>
+            <p class="auth-footer">Thoughtful conversations start here.</p>
+        </section>
+    </main>
+</body>
+
+</html>

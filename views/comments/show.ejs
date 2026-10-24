@@ -10,18 +10,18 @@
 
 <body class="page">
     <main class="container narrow">
+        <a class="brand site-brand" href="/"><span class="brand-mark">t</span> threadline</a>
         <header class="page-header form-header">
             <div>
-                <p class="eyebrow">Details</p>
-                <h1>Comment</h1>
+                <p class="eyebrow">In the conversation</p>
+                <h1>Comment details</h1>
             </div>
             <a class="button secondary" href="/comments">Back</a>
         </header>
 
         <article class="comment-detail">
-            <p class="comment-id">ID: <%= comment._id ? comment._id.toString() : comment.id %></p>
             <p class="comment-text large"><%= comment.comment %></p>
-            <p class="comment-author">Posted by <strong><%= comment.username %></strong></p>
+            <p class="comment-author"><span class="author-avatar"><%= comment.username.charAt(0).toUpperCase() %></span> Posted by <strong><%= comment.username %></strong></p>
         </article>
 
         <div class="detail-actions">
