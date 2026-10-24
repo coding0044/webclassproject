@@ -61,6 +61,15 @@ test('production serverless app loads without session secret and reports auth se
         });
         assert.equal(response.status, 503);
         assert.match(await response.text(), /AUTH_SESSION_SECRET/);
+        const reset = await fetch('http://127.0.0.1:' + address.port + '/verify-reset-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: 'email=person%40example.com&code=123456'
+        });
+        assert.equal(reset.status, 503);
+        const resetHtml = await reset.text();
+        assert.match(resetHtml, /AUTH_SESSION_SECRET/);
+        assert.match(resetHtml, /Vercel &gt; Project Settings &gt; Environment Variables/);
       } catch (error) {
         console.error(error);
         process.exitCode = 1;

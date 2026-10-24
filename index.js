@@ -23,6 +23,7 @@ const { isEmailConfigured, sendPasswordResetCode } = require('./auth/email');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const SESSION_CONFIGURATION_ERROR = 'Set AUTH_SESSION_SECRET in Vercel > Project Settings > Environment Variables to a stable secret of at least 32 characters, then redeploy.';
 let databaseConnected = false;
 let databaseInitialization;
 const fallbackComments = [
@@ -206,7 +207,7 @@ app.post('/signup', async (req, res, next) => {
   try {
     if (!isSessionConfigured()) {
       return res.status(503).render('auth/signup', {
-        error: 'Account sign-up is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.',
+        error: `Account sign-up is temporarily unavailable. ${SESSION_CONFIGURATION_ERROR}`,
         values
       });
     }
@@ -257,7 +258,7 @@ app.post('/login', async (req, res, next) => {
   try {
     if (!isSessionConfigured()) {
       return res.status(503).render('auth/login', {
-        error: 'Login is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.',
+        error: `Login is temporarily unavailable. ${SESSION_CONFIGURATION_ERROR}`,
         email
       });
     }
@@ -303,7 +304,7 @@ app.post('/forgot-password', async (req, res, next) => {
 
   if (!isSessionConfigured()) {
     return res.status(503).render('auth/forgot-password', {
-      error: 'Password reset is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.',
+      error: `Password reset is temporarily unavailable. ${SESSION_CONFIGURATION_ERROR}`,
       email
     });
   }
@@ -385,7 +386,7 @@ app.post('/verify-reset-code', async (req, res, next) => {
   if (!isSessionConfigured()) {
     return res.status(503).render('auth/verify-reset-code', {
       ...values,
-      error: 'Password reset is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.'
+      error: `Password reset is temporarily unavailable. ${SESSION_CONFIGURATION_ERROR}`
     });
   }
 
@@ -456,7 +457,7 @@ app.post('/verify-reset-code', async (req, res, next) => {
 app.get('/reset-password', async (req, res, next) => {
   if (!isSessionConfigured()) {
     return res.status(503).render('auth/reset-password', {
-      error: 'Password reset is temporarily unavailable. Configure AUTH_SESSION_SECRET in the deployment environment.'
+      error: `Password reset is temporarily unavailable. ${SESSION_CONFIGURATION_ERROR}`
     });
   }
 
@@ -696,6 +697,5 @@ module.exports = app;
 module.exports.app = app;
 module.exports.initializeDatabase = initializeDatabase;
 module.exports.disconnectDB = disconnectDB;
-
 
 
