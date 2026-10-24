@@ -1,9 +1,34 @@
+<<<<<<< HEAD
 # Threadline - Comments Board
 
 A responsive Express.js discussion board for creating, viewing, updating, and deleting comments. Its login, signup, and comments pages share a consistent Threadline design. The app uses EJS and supports in-memory fallback comment storage and MongoDB persistence.
+=======
+REST Demo – Comments Board
 
-## Features
+A simple RESTful web application built with Node.js, Express.js, and EJS that allows users to create, view, edit, and delete comments. The application features a clean, user-friendly interface and supports both MongoDB persistence and in-memory storage for local development.
+>>>>>>> dd9b947c3a1a8de8eedd0df4150d9569fcf0dba0
 
+Features
+View all comments on the main board.
+Create new comments with a username and message.
+View individual comment details.
+Edit existing comments.
+Delete comments.
+Display success and error messages after user actions.
+Store comments in MongoDB using Mongoose.
+Automatically fall back to in-memory storage when MongoDB is unavailable or not configured.
+Use HTTP PATCH and DELETE methods through method-override.
+Tech Stack
+Backend: Node.js and Express.js
+Frontend: EJS templates, HTML, and CSS
+Database: MongoDB and Mongoose
+Middleware: Method Override and session-based flash messaging
+Configuration: dotenv
+Installation
+Clone the repository:
+git clone <repository-url>
+
+<<<<<<< HEAD
 - View all comments on the main board
 - Responsive, consistent Threadline styling across account and comment pages
 - Add a new comment with username and message
@@ -15,31 +40,19 @@ A responsive Express.js discussion board for creating, viewing, updating, and de
 - MongoDB-backed account registration and login with salted password hashing
 - Signed, HTTP-only login cookies with logout support
 - Email OTP password reset with expiring codes and one-time verification
+=======
+Navigate to the project directory:
+cd <project-folder>
+>>>>>>> dd9b947c3a1a8de8eedd0df4150d9569fcf0dba0
 
-## Tech Stack
-
-- Node.js
-- Express.js
-- EJS templates
-- MongoDB + Mongoose
-- Method override for PATCH and DELETE requests
-
-## Installation
-
-1. Clone the repository
-2. Open the project folder
-3. Install dependencies:
-
-```bash
+Install the dependencies:
 npm install
-```
 
-## Run the app
+Configuration
 
-```bash
-npm start
-```
+To enable MongoDB persistence, create a .env file in the project root:
 
+<<<<<<< HEAD
 Then open:
 
 ```text
@@ -87,15 +100,88 @@ MAIL_FROM=your-gmail-address@gmail.com
 Set `AUTH_SESSION_SECRET` to a private random value of at least 32 characters before deploying. For example, generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Account creation, login, and password reset require a working MongoDB connection; passwords and reset codes are stored as salted scrypt hashes. For Gmail, use an App Password (not your regular account password) as `MAIL_PASS`; never commit real credentials. Since the previous App Password was shared in chat, revoke it and generate a new one before using email reset. Reset codes expire after 10 minutes, are limited to five attempts, and can only be resent once per minute. In development, if `AUTH_SESSION_SECRET` is omitted, sessions use a temporary process-only secret and will expire when the app restarts.
 
 ## Screenshots
+=======
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/commentsdb
+MONGODB_DB=commentsdb
 
-![Comments board](./public/picture/Comments%20board.png)
+>>>>>>> dd9b947c3a1a8de8eedd0df4150d9569fcf0dba0
 
-![Create new comment form](./public/picture/Create%20new%20comment%20form.png)
+Make sure MongoDB is running locally or replace MONGODB_URI with your database connection string.
 
-![Comment details page](./public/picture/Comment%20details%20page.png)
+If MongoDB is not configured or the connection cannot be established, the application can use its in-memory fallback storage, depending on the application's implementation.
 
-![Edit comment form](./public/picture/Edit%20comment%20form.png)
+Run the Application
 
-## Notes
+Start the server using:
 
-This project was designed to match the provided UI mockups for a simple REST-based comments board and works as a lightweight demonstration of CRUD operations in Express.js.
+npm start
+
+
+Open your browser and navigate to:
+
+http://localhost:3000
+
+Application Routes
+HTTP Method	Endpoint	Description
+GET	/	Redirects to the comments board
+GET	/comments	Displays all comments
+GET	/comments/new	Displays the new comment form
+POST	/comments	Creates a new comment
+GET	/comments/:id	Displays a comment's details
+GET	/comments/:id/edit	Displays the edit form
+PATCH	/comments/:id	Updates an existing comment
+DELETE	/comments/:id	Deletes a comment
+Screenshots
+Comments Board
+
+Displays all comments with options to view, edit, or delete them.
+
+!Comments Board
+
+Create New Comment
+
+A form for entering a username and comment message.
+
+!Create New Comment Form
+
+Comment Details
+
+Displays the details of an individual comment.
+
+!Comment Details Page
+
+Edit Comment
+
+A form for updating an existing comment.
+
+!Edit Comment Form
+
+Project Structure
+
+A typical project structure may look like this:
+
+project-folder/
+├── models/
+├── public/
+│   ├── css/
+│   └── picture/
+├── views/
+│   └── comments/
+├── .env
+├── .gitignore
+├── package.json
+└── app.js
+
+
+The exact structure may vary depending on your implementation.
+
+Notes
+
+This project demonstrates the fundamental principles of RESTful routing and CRUD operations using Express.js. It is designed to provide a simple, clean interface for managing comments while supporting MongoDB-backed persistence and an in-memory fallback for local testing.
+
+Note: In-memory data is temporary and will be lost when the server restarts. MongoDB should be used when persistent storage is required.
+
+License
+
+Add a license here if you intend to distribute this project publicly.
