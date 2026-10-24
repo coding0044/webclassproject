@@ -1,80 +1,117 @@
-# REST Demo - Comments Board
+REST Demo – Comments Board
 
-A simple Express.js application for creating, viewing, updating, and deleting comments. The app includes a clean EJS-based UI and supports both in-memory fallback storage and MongoDB when configured.
+A simple RESTful web application built with Node.js, Express.js, and EJS that allows users to create, view, edit, and delete comments. The application features a clean, user-friendly interface and supports both MongoDB persistence and in-memory storage for local development.
 
-## Features
+Features
+View all comments on the main board.
+Create new comments with a username and message.
+View individual comment details.
+Edit existing comments.
+Delete comments.
+Display success and error messages after user actions.
+Store comments in MongoDB using Mongoose.
+Automatically fall back to in-memory storage when MongoDB is unavailable or not configured.
+Use HTTP PATCH and DELETE methods through method-override.
+Tech Stack
+Backend: Node.js and Express.js
+Frontend: EJS templates, HTML, and CSS
+Database: MongoDB and Mongoose
+Middleware: Method Override and session-based flash messaging
+Configuration: dotenv
+Installation
+Clone the repository:
+git clone <repository-url>
 
-- View all comments on the main board
-- Add a new comment with username and message
-- Open a comment detail page
-- Edit an existing comment
-- Delete a comment
-- Flash success/error messages after actions
-- MongoDB-supported persistence with graceful fallback to local in-memory storage
+Navigate to the project directory:
+cd <project-folder>
 
-## Tech Stack
-
-- Node.js
-- Express.js
-- EJS templates
-- MongoDB + Mongoose
-- Method override for PATCH and DELETE requests
-
-## Installation
-
-1. Clone the repository
-2. Open the project folder
-3. Install dependencies:
-
-```bash
+Install the dependencies:
 npm install
-```
 
-## Run the app
+Configuration
 
-```bash
-npm start
-```
+To enable MongoDB persistence, create a .env file in the project root:
 
-Then open:
-
-```text
-http://localhost:3000
-```
-
-## Routes
-
-- `GET /` → redirects to `/comments`
-- `GET /comments` → displays all comments
-- `GET /comments/new` → form to create a new comment
-- `POST /comments` → creates a new comment
-- `GET /comments/:id` → shows comment details
-- `GET /comments/:id/edit` → edit form
-- `PATCH /comments/:id` → updates comment
-- `DELETE /comments/:id` → deletes comment
-
-## Environment Configuration
-
-The app supports MongoDB through environment variables. If the database is not configured, it automatically falls back to the built-in in-memory comment list for local testing.
-
-Create a `.env` file in the project root if needed:
-
-```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/commentsdb
 MONGODB_DB=commentsdb
-```
 
-## Screenshots
 
-![Comments board](./public/picture/Comments%20board.png)
+Make sure MongoDB is running locally or replace MONGODB_URI with your database connection string.
 
-![Create new comment form](./public/picture/Create%20new%20comment%20form.png)
+If MongoDB is not configured or the connection cannot be established, the application can use its in-memory fallback storage, depending on the application's implementation.
 
-![Comment details page](./public/picture/Comment%20details%20page.png)
+Run the Application
 
-![Edit comment form](./public/picture/Edit%20comment%20form.png)
+Start the server using:
 
-## Notes
+npm start
 
-This project was designed to match the provided UI mockups for a simple REST-based comments board and works as a lightweight demonstration of CRUD operations in Express.js.
+
+Open your browser and navigate to:
+
+http://localhost:3000
+
+Application Routes
+HTTP Method	Endpoint	Description
+GET	/	Redirects to the comments board
+GET	/comments	Displays all comments
+GET	/comments/new	Displays the new comment form
+POST	/comments	Creates a new comment
+GET	/comments/:id	Displays a comment's details
+GET	/comments/:id/edit	Displays the edit form
+PATCH	/comments/:id	Updates an existing comment
+DELETE	/comments/:id	Deletes a comment
+Screenshots
+Comments Board
+
+Displays all comments with options to view, edit, or delete them.
+
+!Comments Board
+
+Create New Comment
+
+A form for entering a username and comment message.
+
+!Create New Comment Form
+
+Comment Details
+
+Displays the details of an individual comment.
+
+!Comment Details Page
+
+Edit Comment
+
+A form for updating an existing comment.
+
+!Edit Comment Form
+
+Project Structure
+
+A typical project structure may look like this:
+
+project-folder/
+├── models/
+├── public/
+│   ├── css/
+│   └── picture/
+├── views/
+│   └── comments/
+├── .env
+├── .gitignore
+├── package.json
+└── app.js
+
+
+The exact structure may vary depending on your implementation.
+
+Notes
+
+This project demonstrates the fundamental principles of RESTful routing and CRUD operations using Express.js. It is designed to provide a simple, clean interface for managing comments while supporting MongoDB-backed persistence and an in-memory fallback for local testing.
+
+Note: In-memory data is temporary and will be lost when the server restarts. MongoDB should be used when persistent storage is required.
+
+License
+
+Add a license here if you intend to distribute this project publicly.
