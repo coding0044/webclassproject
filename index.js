@@ -1,4 +1,5 @@
 const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env.local') });
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -695,7 +696,6 @@ module.exports = app;
 module.exports.app = app;
 module.exports.initializeDatabase = initializeDatabase;
 module.exports.disconnectDB = disconnectDB;
-
 
 
 

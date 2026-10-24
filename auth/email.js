@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const tls = require('node:tls');
 
 function getEmailConfig() {
   const host = process.env.MAIL_HOST;
@@ -41,7 +42,10 @@ async function sendPasswordResetCode(email, code) {
     host: config.host,
     port: config.port,
     secure: config.secure,
-    auth: config.auth
+    auth: config.auth,
+    ...(typeof tls.getCACertificates === 'function' && {
+      tls: { ca: [...tls.rootCertificates, ...tls.getCACertificates('system')] }
+    })
   });
 
   await transporter.sendMail({

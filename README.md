@@ -84,6 +84,8 @@ The app supports MongoDB through environment variables. If the database is not c
 
 Create a private `.env.local` file in the project root for machine-specific configuration. `.env.local` is ignored by Git and is loaded before `.env`, so its values take priority:
 
+If MongoDB Atlas SRV lookups fail with `querySrv ECONNREFUSED` on Windows, set `MONGODB_DNS_SERVERS` to comma-separated DNS resolver addresses reachable from your network. The application uses these addresses for MongoDB DNS lookups; omit the setting when the default resolver works.
+
 ```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/commentsdb

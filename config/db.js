@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const dns = require('node:dns');
 
 const PLACEHOLDER_PATTERNS = [
   /YOUR_MONGODB_PASSWORD/i,
@@ -37,6 +38,15 @@ async function connectDB() {
 
   mongoose.set('strictQuery', true);
 
+  const dnsServers = (process.env.MONGODB_DNS_SERVERS || '')
+    .split(',')
+    .map((server) => server.trim())
+    .filter(Boolean);
+
+  if (dnsServers.length > 0) {
+    dns.setServers(dnsServers);
+  }
+
   mongoose.connection.on('connected', () => {
     console.log('MongoDB connected successfully.');
   });
@@ -51,7 +61,6 @@ async function connectDB() {
 
   const connectPromise = mongoose.connect(uri, {
     dbName,
-    tls: true,
     serverSelectionTimeoutMS: 15000,
     maxPoolSize: 10,
     retryWrites: true,
